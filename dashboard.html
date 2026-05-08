@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel — Vovó Dinha Ateliê</title>
+    <link rel="icon" type="image/x-icon" href="vovodinha_atelie_logo.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral:      #E8886A;
+            --coral-dark: #c96b4e;
+            --rosa-claro: #fde8e7;
+            --verde-agua: #5bbfb5;
+            --verde-dark: #3da89f;
+            --preto:      #2a2a2a;
+            --cinza:      #888;
+            --borda:      #e8e8e8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--rosa-claro);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '🧵';
+            position: fixed;
+            font-size: 320px;
+            opacity: 0.045;
+            top: -60px;
+            right: -80px;
+            pointer-events: none;
+        }
+        body::after {
+            content: '🧶';
+            position: fixed;
+            font-size: 220px;
+            opacity: 0.045;
+            bottom: -40px;
+            left: -50px;
+            pointer-events: none;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 700px;
+            animation: fadeUp .5s ease both;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .brand-logo {
+            width: 68px;
+            height: 68px;
+            background: var(--coral);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(232,136,106,.35);
+        }
+        .brand h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--preto);
+            font-weight: 700;
+        }
+        .brand h1 span { color: var(--coral); }
+        .brand p {
+            font-size: 14px;
+            color: var(--cinza);
+            margin-top: 6px;
+        }
+
+        .escolha-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            color: var(--preto);
+            text-align: center;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .modulo-card {
+            background: #fff;
+            border-radius: 22px;
+            padding: 36px 28px;
+            border: 1.5px solid var(--borda);
+            box-shadow: 0 4px 24px rgba(0,0,0,.06);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+
+        .modulo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,.1);
+        }
+
+        .modulo-card.financeiro:hover { border-color: var(--coral); }
+        .modulo-card.pedidos:hover   { border-color: var(--verde-agua); }
+
+        .modulo-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .financeiro .modulo-icon {
+            background: #fff0ed;
+        }
+        .pedidos .modulo-icon {
+            background: #eaf8f7;
+        }
+
+        .modulo-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            color: var(--preto);
+            margin: 0;
+        }
+
+        .modulo-card p {
+            font-size: 13px;
+            color: var(--cinza);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .modulo-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 4px;
+            transition: background .2s;
+        }
+        .financeiro .modulo-btn { background: var(--coral); }
+        .financeiro .modulo-btn:hover { background: var(--coral-dark); }
+        .pedidos    .modulo-btn { background: var(--verde-agua); }
+        .pedidos    .modulo-btn:hover { background: var(--verde-dark); }
+
+        .rodape {
+            text-align: center;
+        }
+        .btn-sair {
+            background: none;
+            border: 1.5px solid var(--borda);
+            color: var(--cinza);
+            padding: 9px 22px;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+        .btn-sair:hover {
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 520px) {
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="brand">
+        <div class="brand-logo">🧵</div>
+        <h1>Vovó Dinha <span>Ateliê</span></h1>
+        <p>Olá! Qual área você deseja acessar hoje?</p>
+    </div>
+
+    <p class="escolha-titulo">Escolha um módulo para começar ✨</p>
+
+    <div class="cards-grid">
+        <a class="modulo-card financeiro" href="admin.html">
+            <div class="modulo-icon">💰</div>
+            <h2>Painel Financeiro</h2>
+            <p>Registre entradas e saídas, veja seu saldo geral e exporte extratos em Excel.</p>
+            <span class="modulo-btn">Acessar →</span>
+        </a>
+
+        <a class="modulo-card pedidos" href="pedidos.html">
+            <div class="modulo-icon">🛍️</div>
+            <h2>Gestão de Pedidos</h2>
+            <p>Gerencie pedidos de clientes, acompanhe status e exporte relatórios de vendas.</p>
+            <span class="modulo-btn">Acessar →</span>
+        </a>
+    </div>
+
+    <div class="rodape">
+        <button class="btn-sair" onclick="sair()">← Sair do sistema</button>
+    </div>
+</div>
+
+<script>
+    if (sessionStorage.getItem('adminLogado') !== 'true') {
+        window.location.replace('login.html');
+    }
+
+    function sair() {
+        sessionStorage.removeItem('adminLogado');
+        window.location.href = 'login.html';
+    }
+</script>
+
+</body>
+</html>

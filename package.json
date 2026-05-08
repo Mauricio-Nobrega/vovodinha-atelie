@@ -1,0 +1,12 @@
+{
+  "name": "vovodinha-atelie",
+  "version": "1.0.0",
+  "description": "Loja virtual Vovó Dinha Ateliê",
+  "main": "serverGestao.js",
+  "scripts": {
+    "start": "node serverGestao.js",
+    "dev": "node serverGestao.js"
+  },
+  "author": "Vovó Dinha Ateliê",
+  "license": "ISC"
+}

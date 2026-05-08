@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Vendas - Estilo Loja</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<style>
+body {
+    font-family: 'DM Sans', Arial;
+    background: linear-gradient(135deg, #fde8e7, #e1f5ee);
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+input, select {
+    padding: 12px;
+    margin: 6px 0;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    background: #fafafa;
+}
+
+button {
+    background: #E8886A;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.edit { background: #5bbfb5; }
+.delete { background: #ff6b6b; }
+
+.card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-top: 5px solid #E8886A;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.status {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+}
+
+.status.pendente { background: #ffb347; }
+.status.concluido { background: #5bbfb5; }
+
+.preco {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #E8886A;
+}
+
+.card-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.total {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: right;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>🛍 Pedidos</h2>
+
+<input id="cliente" placeholder="Cliente">
+<input id="produto" placeholder="Produto">
+<input id="preco" type="number" placeholder="Preço">
+<input id="qtd" type="number" placeholder="Quantidade">
+<input id="data" type="date">
+
+<select id="status">
+<option>Pendente</option>
+<option>Concluído</option>
+</select>
+
+<input id="contato" placeholder="Contato">
+
+<button id="btnSalvar" onclick="salvar()">Salvar</button>
+
+<input id="busca" placeholder="🔍 Buscar..." onkeyup="filtrar()">
+
+<div id="lista"></div>
+
+<div class="total" id="total"></div>
+
+<button onclick="exportar()">📥 Exportar Excel</button>
+
+</div>
+
+<script>
+let dados = JSON.parse(localStorage.getItem("dados")) || [];
+let edit = -1;
+
+function salvarStorage() {
+    localStorage.setItem("dados", JSON.stringify(dados));
+}
+
+function limparCampos() {
+    cliente.value = "";
+    produto.value = "";
+    preco.value = "";
+    qtd.value = "";
+    data.value = "";
+    status.value = "Pendente";
+    contato.value = "";
+}
+
+function salvar() {
+    const item = {
+        cliente: cliente.value,
+        produto: produto.value,
+        preco: parseFloat(preco.value),
+        qtd: parseInt(qtd.value),
+        total: preco.value * qtd.value,
+        data: data.value,
+        status: status.value,
+        contato: contato.value
+    };
+
+    if (edit === -1) {
+        dados.push(item);
+    } else {
+        dados[edit] = item;
+        edit = -1;
+        document.getElementById("btnSalvar").innerText = "Salvar";
+    }
+
+    salvarStorage();
+    limparCampos();
+    render(dados);
+}
+
+function render(listaDados) {
+    let html = "";
+    let soma = 0;
+
+    listaDados.forEach((d, i) => {
+        soma += d.total;
+
+        const statusClass = d.status === "Concluído" ? "concluido" : "pendente";
+
+        html += `
+        <div class="card">
+            <div class="card-header">
+                <div><strong>${d.cliente}</strong></div>
+                <div class="status ${statusClass}">${d.status}</div>
+            </div>
+
+            <div>🛍 ${d.produto}</div>
+            <div class="preco">R$ ${d.total.toFixed(2)}</div>
+
+            <div class="card-footer">
+                <div>📅 ${d.data}</div>
+                <div>
+                    <button class="edit" onclick="editar(${i})">✏️ Editar</button>
+                    <button class="delete" onclick="remover(${i})">🗑 Excluir</button>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById("lista").innerHTML = html;
+    document.getElementById("total").innerText = "Total: R$ " + soma.toFixed(2);
+}
+
+function editar(i) {
+    const d = dados[i];
+    cliente.value = d.cliente;
+    produto.value = d.produto;
+    preco.value = d.preco;
+    qtd.value = d.qtd;
+    data.value = d.data;
+    status.value = d.status;
+    contato.value = d.contato;
+
+    edit = i;
+
+    document.getElementById("btnSalvar").innerText = "Atualizar";
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function remover(i) {
+    if (confirm("Deseja excluir este pedido?")) {
+        dados.splice(i, 1);
+        salvarStorage();
+        render(dados);
+    }
+}
+
+function filtrar() {
+    const termo = busca.value.toLowerCase();
+    const filtrados = dados.filter(d =>
+        d.cliente.toLowerCase().includes(termo) ||
+        d.produto.toLowerCase().includes(termo)
+    );
+    render(filtrados);
+}
+
+function exportar() {
+    const ws = XLSX.utils.json_to_sheet(dados);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Vendas");
+    XLSX.writeFile(wb, "relatorio.xlsx");
+}
+
+render(dados);
+</script>
+
+</body>
+</html>

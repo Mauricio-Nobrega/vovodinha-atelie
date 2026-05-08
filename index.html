@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vovó Dinha Ateliê</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="vovodinha_atelie_logo.ico">
+</head>
+
+<body>
+
+  <!-- ═══════════ HEADER / LOGO ═══════════ -->
+  <header class="site-header">
+    <div class="logo-inline">
+      <div class="logo-vovo">
+        <svg width="200" height="80" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="105" y="148" text-anchor="middle" font-family="'Arial Black',Impact,sans-serif" font-size="150"
+            font-weight="900" fill="#2a2a2a">V</text>
+          <circle cx="233" cy="100" r="36" fill="#5bbfb5" stroke="#2a2a2a" stroke-width="7" />
+          <circle cx="222" cy="90" r="4" fill="#2a2a2a" />
+          <circle cx="244" cy="90" r="4" fill="#2a2a2a" />
+          <circle cx="222" cy="112" r="4" fill="#2a2a2a" />
+          <circle cx="244" cy="112" r="4" fill="#2a2a2a" />
+          <text x="330" y="148" text-anchor="middle" font-family="'Arial Black',Impact,sans-serif" font-size="150"
+            font-weight="900" fill="#2a2a2a">V</text>
+          <text x="440" y="148" text-anchor="middle" font-family="'Arial Black',Impact,sans-serif" font-size="150"
+            font-weight="900" fill="#E8886A">Ó</text>
+          <text x="340" y="218" text-anchor="middle" font-family="'Arial Black',Impact,sans-serif" font-size="112"
+            font-weight="900" fill="#E8886A" letter-spacing="4">DINHA</text>
+          <text x="340" y="258" text-anchor="middle" font-family="'Dancing Script',cursive" font-size="54"
+            fill="#2a2a2a">ateliê</text>
+          <path d="M 160,268 Q 260,282 340,276 Q 420,270 500,278" fill="none" stroke="#2a2a2a" stroke-width="2.5"
+            stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav>
+    <div class="nav-hamburguer" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Produtos</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════ BANNER ═══════════ -->
+  <section class="banner">
+    <div class="banner-text">
+      <h2>Feito com amor,<br><span>ponto a ponto 🧵</span></h2>
+      <p>Desde 2018 bordando peças com muito amor de avó. Cada peça é feita com muito carinho e dedicação, pensado em
+        cada um que decide adquirir um produto da Vovó Dinha Ateliê.</p>
+      <button class="banner-cta">Ver coleção</button>
+    </div>
+    <div class="banner-img">🧶</div>
+  </section>
+
+  <!-- ═══════════ LAYOUT PRINCIPAL ═══════════ -->
+  <div class="main-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-section">
+        <h4>Palavras-chave</h4>
+        <div class="tags-wrap">
+          <span class="tag">Bordado com nome <span class="remove">×</span></span>
+          <span class="tag">Toalhas <span class="remove">×</span></span>
+          <span class="tag">Bolsas <span class="remove">×</span></span>
+        </div>
+        <input class="search-input" type="text" placeholder="Buscar produto...">
+      </div>
+
+      <div class="sidebar-section">
+        <h4>Categoria</h4>
+        <label class="check-item">
+          <input type="checkbox">
+          <span class="check-item-text">
+            <span class="check-item-label">Toalhas</span>
+            <span class="check-item-desc">Bordados à sua escolha</span>
+          </span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <span class="check-item-text">
+            <span class="check-item-label">Necessaires</span>
+            <span class="check-item-desc">Bolsas personalizadas</span>
+          </span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <span class="check-item-text">
+            <span class="check-item-label">Enxoval</span>
+            <span class="check-item-desc">Bebê e casamento</span>
+          </span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <span class="check-item-text">
+            <span class="check-item-label">Bolsas</span>
+            <span class="check-item-desc">Ecobags e necessaires</span>
+          </span>
+        </label>
+      </div>
+
+      <div class="sidebar-section">
+        <h4>Preço (R$)</h4>
+        <div class="range-wrap">
+          <div class="range-values"><span>R$0</span><span id="preco-val">R$500</span></div>
+          <input type="range" min="0" max="500" value="500" id="preco-range">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h4>Cor</h4>
+        <div class="color-dots">
+          <div class="color-dot active" style="background:#E8886A" title="Coral"></div>
+          <div class="color-dot" style="background:#f5d0a6" title="Branco"></div>
+          <div class="color-dot" style="background:#8bb0db" title="Azul Claro"></div>
+          <div class="color-dot" style="background:#393bac" title="Azul Escuro"></div>
+          <div class="color-dot" style="background:#f0d080" title="Amarelo"></div>
+          <div class="color-dot" style="background:#800a0a" title="Vinho"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ÁREA DE PRODUTOS -->
+    <main class="produtos-area">
+
+      <div class="toolbar">
+        <div class="search-bar">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="Buscar produto...">
+        </div>
+        <button class="sort-btn active">Novidades</button>
+        <button class="sort-btn">Menor preço</button>
+        <button class="sort-btn">Maior preço</button>
+      </div>
+
+      <!-- Grid renderizado pelo JS -->
+      <div class="produtos-grid" id="grid-produtos"></div>
+
+    </main>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="color:#fff;font-size:20px;font-weight:900;font-family:'Arial Black',sans-serif;letter-spacing:1px">
+          VOVÓ DINHA <span style="color:var(--coral)">ATELIÊ</span>
+        </div>
+        <p>Peças artesanais feitas com amor e dedicação.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Produtos</h5>
+        <ul>
+          <li><a href="#">Bolsas</a></li>
+          <li><a href="#">Toalhas</a></li>
+          <li><a href="#">Necessaires</a></li>
+          <li><a href="#">Enxoval</a></li>
+          <li><a href="#">Personalizados</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Informações</h5>
+        <ul>
+          <li><a href="#">Sobre nós</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <ul>
+          <li><a href="https://wa.me/5511975159558">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/vovodinhaleme?igsh=MWUzM2FqYm4yN3MzMg==">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Vovó Dinha Ateliê.</p>
+      <p>Feito com 🧵 e muito amor</p>
+    </div>
+  </footer>
+
+  <!-- Botão flutuante carrinho -->
+  <button class="cart-btn" aria-label="Abrir carrinho">
+    🛒
+    <span class="cart-count" id="cart-count">0</span>
+  </button>
+
+  <script src="main.js"></script>
+</body>
+
+</html>

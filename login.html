@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Restrito — Vovó Dinha Ateliê</title>
+    <link rel="icon" type="image/x-icon" href="vovodinha_atelie_logo.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral:      #E8886A;
+            --coral-dark: #c96b4e;
+            --rosa-claro: #fde8e7;
+            --verde-agua: #5bbfb5;
+            --preto:      #2a2a2a;
+            --cinza:      #888;
+            --borda:      #e8e8e8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--rosa-claro);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Decoração de fundo */
+        body::before {
+            content: '🧵';
+            position: fixed;
+            font-size: 320px;
+            opacity: 0.045;
+            top: -60px;
+            right: -80px;
+            pointer-events: none;
+            line-height: 1;
+        }
+        body::after {
+            content: '🧶';
+            position: fixed;
+            font-size: 220px;
+            opacity: 0.045;
+            bottom: -40px;
+            left: -50px;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            animation: fadeUp .5s ease both;
+        }
+
+        /* Logo / marca */
+        .brand {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--coral);
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 24px rgba(232,136,106,.35);
+        }
+        .brand h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--preto);
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+        .brand h1 span { color: var(--coral); }
+        .brand p {
+            font-size: 13px;
+            color: var(--cinza);
+            margin-top: 5px;
+        }
+
+        /* Card do formulário */
+        .login-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 36px 32px;
+            box-shadow:
+                0 2px 0 rgba(232,136,106,.12),
+                0 12px 40px rgba(0,0,0,.08);
+            border: 1px solid var(--borda);
+        }
+
+        .login-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--preto);
+            margin-bottom: 6px;
+        }
+        .login-card .subtitle {
+            font-size: 13px;
+            color: var(--cinza);
+            margin-bottom: 28px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--cinza);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 7px;
+        }
+        .field-wrap {
+            position: relative;
+        }
+        .field-wrap .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            pointer-events: none;
+        }
+        .field input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border: 1.5px solid var(--borda);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--preto);
+            background: #fafafa;
+            outline: none;
+            transition: border .2s, background .2s;
+        }
+        .field input:focus {
+            border-color: var(--coral);
+            background: #fff;
+        }
+        /* Toggle senha */
+        .toggle-senha {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: .5;
+            transition: opacity .15s;
+            padding: 2px;
+        }
+        .toggle-senha:hover { opacity: 1; }
+
+        /* Mensagem de erro */
+        .erro-msg {
+            display: none;
+            background: #fff0ee;
+            border: 1px solid #f8ccc6;
+            color: #c0392b;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 13px;
+            margin-bottom: 18px;
+            text-align: center;
+            animation: shake .4s ease;
+        }
+        .erro-msg.visivel { display: block; }
+
+        .btn-entrar {
+            width: 100%;
+            padding: 14px;
+            background: var(--coral);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s, transform .1s, box-shadow .2s;
+            box-shadow: 0 4px 16px rgba(232,136,106,.4);
+            margin-top: 4px;
+        }
+        .btn-entrar:hover {
+            background: var(--coral-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(232,136,106,.45);
+        }
+        .btn-entrar:active { transform: translateY(0); }
+
+        .voltar-loja {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px;
+            color: var(--cinza);
+        }
+        .voltar-loja a {
+            color: var(--coral);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .voltar-loja a:hover { text-decoration: underline; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-7px); }
+            40%      { transform: translateX(7px); }
+            60%      { transform: translateX(-4px); }
+            80%      { transform: translateX(4px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <div class="brand">
+        <div class="brand-logo">🧵</div>
+        <h1>Vovó Dinha <span>Ateliê</span></h1>
+        <p>Área administrativa — acesso restrito</p>
+    </div>
+
+    <div class="login-card">
+        <h2>Bem-vinda de volta! 🌸</h2>
+        <p class="subtitle">Entre com suas credenciais para acessar o painel.</p>
+
+        <div id="erroMsg" class="erro-msg">
+            Usuário ou senha incorretos. Tente novamente.
+        </div>
+
+        <div class="field">
+            <label>Usuário</label>
+            <div class="field-wrap">
+                <span class="icon">👤</span>
+                <input type="text" id="inputUsuario" placeholder="seu usuário" autocomplete="username">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Senha</label>
+            <div class="field-wrap">
+                <span class="icon">🔒</span>
+                <input type="password" id="inputSenha" placeholder="••••••••" autocomplete="current-password">
+                <button class="toggle-senha" id="toggleSenha" type="button" title="Mostrar/ocultar senha">👁</button>
+            </div>
+        </div>
+
+        <button class="btn-entrar" onclick="tentarLogin()">Entrar no Painel</button>
+    </div>
+
+    <div class="voltar-loja">
+        <a href="index.html">← Voltar para a loja</a>
+    </div>
+</div>
+
+<script>
+    // ─────────────────────────────────────────────
+    //  CREDENCIAIS — altere aqui para suas credenciais
+    //  ⚠️  Para maior segurança em produção, use um
+    //  back-end real com hash de senha (ex: bcrypt).
+    // ─────────────────────────────────────────────
+    const USUARIO_CORRETO = 'vovodinha';
+    const SENHA_CORRETA   = 'atelie2026';
+
+    // Toggle mostrar/esconder senha
+    document.getElementById('toggleSenha').addEventListener('click', function () {
+        const campo = document.getElementById('inputSenha');
+        const visivel = campo.type === 'text';
+        campo.type = visivel ? 'password' : 'text';
+        this.textContent = visivel ? '👁' : '🙈';
+    });
+
+    // Permite pressionar Enter para logar
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') tentarLogin();
+    });
+
+    function tentarLogin() {
+        const usuario = document.getElementById('inputUsuario').value.trim();
+        const senha   = document.getElementById('inputSenha').value;
+        const erroMsg = document.getElementById('erroMsg');
+
+        if (usuario === USUARIO_CORRETO && senha === SENHA_CORRETA) {
+            // Salva a sessão e redireciona
+            sessionStorage.setItem('adminLogado', 'true');
+            window.location.href = 'dashboard.html';
+        } else {
+            // Mostra erro com animação
+            erroMsg.classList.remove('visivel');
+            void erroMsg.offsetWidth; // força reflow para reiniciar animação
+            erroMsg.classList.add('visivel');
+            document.getElementById('inputSenha').value = '';
+            document.getElementById('inputSenha').focus();
+        }
+    }
+</script>
+
+</body>
+</html>
